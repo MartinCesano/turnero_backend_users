@@ -7,7 +7,6 @@ import { hashSync, compareSync } from 'bcrypt';
 import { JwtService } from 'src/jwt/jwt.service';
 import { Repository, DeepPartial} from 'typeorm';
 import { PermissionsService } from 'src/permissions/permissions.service';
-import { RolesService } from 'src/roles/roles.service';
 
 
 @Injectable()
@@ -16,7 +15,6 @@ export class UsersService {
   constructor(
     private permissionsService: PermissionsService,
     private jwtService: JwtService, // Inyecta JwtService
-    private rolesService: RolesService
   ) {}
 
   async createUsers(users: DeepPartial<UserEntity>) {
@@ -141,16 +139,7 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException(`User with ID ${userId} not found`);
     }
-    const role = await this.rolesService.findRoleById(body.roleId);
 
-    if (!role) {
-      throw new NotFoundException(`Role with ID ${body.roleId} not found`);
-    }
-
-    if (!user.roles) {
-      user.roles = [];
-    }
-    user.roles.push(role); // le agrega el rol a user
     await user.save();
     
     return user;

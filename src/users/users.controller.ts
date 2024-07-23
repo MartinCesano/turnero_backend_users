@@ -56,7 +56,7 @@ export class UsersController {
       return this.usersService.register(body);
     }
 
-  @UseGuards(AuthGuard) //no pasa esta prueba
+  @UseGuards(AuthGuard) 
   @Get('can-do/:permission') // Verifica si el usuario autenticado tiene el permiso especificado
     canDo(@Req() request: Request & { user: UserEntity}, @Param('permission') permission: string) {
       return this.usersService.canDo(request.user, permission);
