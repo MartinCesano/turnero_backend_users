@@ -47,7 +47,15 @@ export class JwtService {
     }
   }
 
-  getPayload(token: string, type: 'refresh' | 'auth' = 'auth'): Payload{
-    return  verify(token, this.config[type].secret) as Payload;
-  }  
+  getPayload(token: string, type: 'refresh' | 'auth' = 'auth'): Payload {
+    return verify(token, this.config[type].secret) as Payload;
+  }
+
+  validateToken(token: string, type: 'refresh' | 'auth' = 'auth'): Payload {
+    try {
+      return verify(token, this.config[type].secret) as Payload;
+    } catch (error) {
+      throw new UnauthorizedException('Invalid or expired token');
+    }
+  }
 }

@@ -4,7 +4,7 @@ import { LoginDTO } from '../interfaces/login.dto';
 import { RegisterDTO } from '../interfaces/register.dto';
 import { Request } from 'express';
 import { UserEntity } from 'src/entities/user.entity';
-import { AuthGuard } from 'src/middlewares/auth.middleware';
+import { AuthGuard } from '../auth/auth.guard';
 import { DeepPartial } from 'typeorm';
 
 @Controller('users')
