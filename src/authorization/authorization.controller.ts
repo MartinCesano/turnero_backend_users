@@ -10,7 +10,6 @@ export class AuthorizationController {
   @Post()
   @HttpCode(HttpStatus.OK)
   async validateToken(@Body() body: { token: string }) {
-    console.log("Hola mundo");
     const isValid = await this.authorizationService.validateToken(body.token);
     if (!isValid) {
       throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
