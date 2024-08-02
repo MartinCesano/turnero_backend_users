@@ -4,12 +4,19 @@ import { UsersService } from 'src/users/users.service';
 import { Request } from 'express';
 import { UserEntity } from 'src/entities/user.entity';
 
+interface JwtPayload {
+  sub: number; // Identificador del usuario (o el identificador que uses)
+  username: string; // Nombre de usuario (o cualquier otro dato que necesites)
+  // Agrega otros campos según tus necesidades
+}
+
 @Injectable() // Añadir el decorador Injectable
-export class AuthGuard implements CanActivate {
+export class AuthorizationService implements CanActivate {
   constructor(
     private readonly jwtService: JwtService, 
     private readonly userService: UsersService
   ){}
+
   async canActivate(context: ExecutionContext): Promise<boolean> {
     try {
       const request: Request & { user: UserEntity } = context.switchToHttp().getRequest();
@@ -31,6 +38,17 @@ export class AuthGuard implements CanActivate {
       return true;
     } catch (error) {
       throw new UnauthorizedException('Invalid token');
+    }
+  }
+  
+  async validateToken(token: string): Promise<any> {
+    try {
+      // Verifica el token
+      const decoded = this.jwtService.validateToken(token);
+      return decoded;
+    } catch (error) {
+      // Si el token no es válido o ha expirado
+      throw new UnauthorizedException('Invalid or expired token');
     }
   }
 }
