@@ -27,9 +27,9 @@ jobs:
       - name: Update image metadata
         uses: docker/metadata-action@v3
         with:
-          images: ${{ secrets.DOCKER_HUB_USERNAME_DEV }}/turnero_backend_users:develop
+          images: ${{ secrets.DOCKER_HUB_USERNAME_DEV }}/turnero_backend_users
           tags: |
-            latest
+            develop
             ${{ github.sha }}
 
       - name: Deploy to Azure Web App
