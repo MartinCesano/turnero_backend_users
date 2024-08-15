@@ -24,14 +24,6 @@ jobs:
       - name: Push Docker image to Docker Hub
         run: docker push ${{ secrets.DOCKER_HUB_USERNAME_DEV }}/turnero_backend_users:develop
 
-      - name: Update image metadata
-        uses: docker/metadata-action@v3
-        with:
-          images: ${{ secrets.DOCKER_HUB_USERNAME_DEV }}/turnero_backend_users
-          tags: |
-            develop
-            ${{ github.sha }}
-
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
